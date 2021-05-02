@@ -6,6 +6,7 @@
 </head>
 <body>
     <h2>Homepage</h2>
-    <a href="login.html">Login</a>
+    <a href="login.php">Login</a>
+    <a href="signup.php">Registrati</a>
 </body>
 </html>
