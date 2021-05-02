@@ -11,8 +11,8 @@
     <h2>Registrati</h2>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" style="margin: 50px">
         <a href="index.php">Torna alle homepage</a><br>
-        <label for="username">Username</label>
-        <input name="username"><br>
+        <label for="email">Email</label>
+        <input name="email"><br>
         <label for="password">Password</label>
         <input name="password" type="password"><br>
         <input type="submit" value="Registrati">
@@ -25,16 +25,21 @@
     require_once "config.php";
 
     // variabili istanziate vuote
-    $username = $password = "";
+    $email = $password = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // ottenimento valori dal form
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
     // query
-    $stmt = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
-    $pdo->prepare($stmt);
+    $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password');";
+
+    if ($pdo->query($sql) === TRUE) {
+    echo "New record created successfully";
+    } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 
 }
 
