@@ -27,21 +27,21 @@
     // variabili istanziate vuote
     $email = $password = "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // ottenimento valori dal form
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        // ottenimento valori dal form
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    // query
-    $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password');";
+        // query
+        $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password');";
 
-    if ($pdo->query($sql) === TRUE) {
-    echo "New record created successfully";
-    } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+        if ($pdo->query($sql) === TRUE) {
+        echo "New record created successfully";
+        } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
     }
-
-}
 
 ?>
 
