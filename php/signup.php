@@ -21,6 +21,7 @@
 </center>
 
 <?php
+    
     // file con impostazioni del database
     require_once "config.php";
 
