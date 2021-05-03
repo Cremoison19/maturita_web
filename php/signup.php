@@ -55,7 +55,10 @@
             $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password_c');";
 
             if ($pdo->query($sql) === TRUE) {
-            echo "New record created successfully";
+                $_SESSION['logged'] = true;
+                $_SESSION['user'] = $email;
+                // $_SESSION[‘role’] = /*TIPO DI UTENTE (admin/user) */
+                redirect("profile.php");
             } 
         }
         else{
@@ -79,7 +82,8 @@
         <input type="submit" value="Registrati">
     </form>
     <a href="login.php">Login</a>
-</center>
+    </center>
+
 </body>
 
 </html>
