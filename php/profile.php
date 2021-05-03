@@ -2,6 +2,7 @@
 session_start();
 if(isset($_SESSION['logged'])){
     if($_SESSION['logged']==false){
+        session_destroy();
         header("Location:/php/login.php");
         exit;
     }
@@ -27,13 +28,7 @@ if(isset($_SESSION['logged'])){
                 echo("<a href='login.php'>Accedi</a>");
             }
         }
-
-        /*if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['logout'])){
-            echo "owo";
-            $_SESSION['logged']=false;
-            unset($_SESSION['user']);
-            echo "logged out.";
-        }*/
+        echo "User: ".$_SESSION['user'];
 
     ?>
     <center>
