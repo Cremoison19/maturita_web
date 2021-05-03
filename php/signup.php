@@ -1,5 +1,10 @@
 <?php
-ob_start();
+session_start();
+if(isset($_POST['logout'])) $_SESSION['logged'] = false;
+if($_SESSION['logged']==true){
+    header("Location:/php/profile.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,10 +65,6 @@ ob_start();
             if ($pdo->query($sql) === TRUE) {
                 $_SESSION['logged'] = true;
                 $_SESSION['user'] = $email;
-                
-                header("Location:/profile.php");
-                echo "<script>window.location.href='profile.php'</script>";
-                exit();
             }
 
         }
