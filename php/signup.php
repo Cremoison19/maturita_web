@@ -1,3 +1,6 @@
+<?php
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,9 +60,12 @@
             if ($pdo->query($sql) === TRUE) {
                 $_SESSION['logged'] = true;
                 $_SESSION['user'] = $email;
-                // $_SESSION[‘role’] = /*TIPO DI UTENTE (admin/user) */
-                redirect("profile.php");
-            } 
+                
+                header("Location:/profile.php");
+                echo "<script>window.location.href='profile.php'</script>";
+                exit();
+            }
+
         }
         else{
             echo "La validazione ha riscontrato degli errori";
