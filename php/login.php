@@ -35,27 +35,8 @@ if($_SESSION['logged']==true){
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // controllo valori inseriti 
+        // essendo un login non c'è bisogno di controllare i dati inseriti dall'utente
 
-        if (empty($_POST["email"])) {
-            $emailErr = "L'email è obbligatoria";
-        } else {
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = $demailErr;
-                $validate = false;
-            }
-        }
-
-        if (empty($_POST["password"])) {
-            $password = "La password è obbligatoria";
-        } else {
-            if(strlen($password)<=$PWD_MIN_LENGTH){
-                $passwordErr = $dpasswordErr;
-                $validate = false;
-            }
-        }
-
-        // query (solo se tutti i campi sono stati validati)
         if($validate){
 
             // se la validazione è avvenuta correttamente e quindi la password è corretta, possiamo criptarla prima di inserirla nel database
