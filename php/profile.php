@@ -19,19 +19,27 @@ if(isset($_SESSION['logged'])){
 
 <body>
 
-<body
-    <h2>Profile</h2>
+<body>
+    <h2>My Profile</h2>
     <?php
-        if(isset($_SESSION)){
-            if($_SESSION['logged']==false and !isset($_SESSION['user'])){
-                
-            }
+        $_SESSION['nodata'] = false;
+        $id = $_SESSION['userID'];
+        $sql = $result = null;
+        // IF USER DATA IS EMPTY, GO TO MODIFY USER DATA
+        require_once "config.php";
+        $sql = "SELECT name FROM users WHERE id = '$id'";
+        $result = $pdo->query($sql)->fetch();
+        if($result['name'] == null){
+            echo ":/";
+            $_SESSION['nodata'] = true;
+            header("Location:/php/edit_profile.php");
         }
-        echo "User: ".$_SESSION['user'];        
+
     ?>
     <center>
     <form method="POST" action="login.php">
-        <!-- 
+
+        <!--
             name, surname, day of birth, birth place, change email, change password
             upload curriculum vitae
             redirect to page where to look up for current jobs available
@@ -41,6 +49,13 @@ if(isset($_SESSION['logged'])){
         <input type="submit" name="logout" value="Logout">
     </form>
     </center>
+
+    <footer>
+        <?php
+            echo "User: ".$_SESSION['userEmail']."<br>";
+            echo "ID: ".$_SESSION['userID']."<br>";
+        ?>
+    </footer>
 </body>
 
 </html>

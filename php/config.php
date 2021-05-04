@@ -34,11 +34,4 @@
         // dopo aver criptato la stringa una volta le aggiungiamo una salt, per poi criptare il tutto un'altra volta
     }
 
-    function redirect($page){
-        // inserire in $page il nome del file .php compreso di estensione
-        header("Location: /$page");
-        echo "<script>document.location.href='$page'</script>";
-    }
-
-
 ?>

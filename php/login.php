@@ -50,7 +50,13 @@ if(isset($_POST['logout'])) $_SESSION['logged'] = false;
                 // la password coincide con quella salvata nel database
                 if ($result['password'] == $password_c) {
                     $_SESSION['logged'] = true;
-                    $_SESSION['user'] = $email;
+                    $_SESSION['userEmail'] = $email;
+                    
+                    // save user id too
+                    $sql = "SELECT id FROM users WHERE email = '$email'";
+                    $result = $pdo->query($sql)->fetch();
+                    $_SESSION['userID'] = $result['id'];
+                    
                     header("Location:/php/profile.php");
                     exit;
                 }
