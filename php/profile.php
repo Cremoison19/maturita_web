@@ -29,6 +29,7 @@ if(isset($_SESSION['logged'])){
             }
         }
         echo "User: ".$_SESSION['user'];
+        
 
     ?>
     <center>

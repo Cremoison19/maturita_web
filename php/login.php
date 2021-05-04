@@ -1,10 +1,12 @@
 <?php
 session_start();
 if(isset($_POST['logout'])) $_SESSION['logged'] = false;
-if($_SESSION['logged']==true){
-    header("Location:/php/profile.php");
-    exit;
-}
+// else{
+//     if($_SESSION['logged']==true){
+//         header("Location:/php/profile.php");
+//         exit;
+//     }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,23 +21,23 @@ if($_SESSION['logged']==true){
 <?php
     // file con impostazioni del database
     require_once "config.php";
-
+    
     // variabili istanziate vuote
     $email = $password = "";
     $emailErr = $passwordErr = "";
 
     // variabili globali
-    unset($_POST['logout']);
-
+    
     if($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['login'])){
-
+        
         $validate = true;
-
+        
         // ottenimento valori dal form
         $email = $_POST['email'];
         $password = $_POST['password'];
-
-        // essendo un login non c'è bisogno di controllare i dati inseriti dall'utente
+        
+        unset($_POST['logout']);
+        $_SESSION['logged'] = false;
 
         if($validate){
 
@@ -55,6 +57,8 @@ if($_SESSION['logged']==true){
                 if ($result['password'] == $password_c) {
                     $_SESSION['logged'] = true;
                     $_SESSION['user'] = $email;
+                    header("Location:/php/profile.php");
+                    exit;
                 }
                 // la password non coincide
                 else{
