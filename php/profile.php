@@ -39,12 +39,7 @@ if(isset($_SESSION['logged'])){
     <center>
     <form method="POST" action="login.php">
 
-        <!--
-            name, surname, day of birth, birth place, change email, change password
-            upload curriculum vitae
-            redirect to page where to look up for current jobs available
-            send an email to 
-        -->
+        
         
         <input type="submit" name="logout" value="Logout">
     </form>

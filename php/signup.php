@@ -26,6 +26,7 @@ if($_SESSION['logged']==true){
     // variabili istanziate vuote
     $email = $password = "";
 
+    // dopo premuto bottone
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $validate = true;
