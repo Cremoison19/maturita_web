@@ -1,12 +1,6 @@
 <?php
 session_start();
 if(isset($_POST['logout'])) $_SESSION['logged'] = false;
-// else{
-//     if($_SESSION['logged']==true){
-//         header("Location:/php/profile.php");
-//         exit;
-//     }
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +15,7 @@ if(isset($_POST['logout'])) $_SESSION['logged'] = false;
 <?php
     // file con impostazioni del database
     require_once "config.php";
-    
+
     // variabili istanziate vuote
     $email = $password = "";
     $emailErr = $passwordErr = "";

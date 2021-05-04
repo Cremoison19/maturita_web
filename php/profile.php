@@ -3,7 +3,7 @@ session_start();
 if(isset($_SESSION['logged'])){
     if($_SESSION['logged']==false){
         session_destroy();
-        header("Location:/php/login.php");
+        header("Location:/php/error_login.php");
         exit;
     }
 }
@@ -19,21 +19,25 @@ if(isset($_SESSION['logged'])){
 
 <body>
 
-<body>
+<body
+    <h2>Profile</h2>
     <?php
         if(isset($_SESSION)){
             if($_SESSION['logged']==false and !isset($_SESSION['user'])){
-                echo("Per accedere a questa schermata devi avere un account.<br>");
-                echo("<a href='signup.php'>Registrati</a><br>");
-                echo("<a href='login.php'>Accedi</a>");
+                
             }
         }
-        echo "User: ".$_SESSION['user'];
-        
-
+        echo "User: ".$_SESSION['user'];        
     ?>
     <center>
     <form method="POST" action="login.php">
+        <!-- 
+            name, surname, day of birth, birth place, change email, change password
+            upload curriculum vitae
+            redirect to page where to look up for current jobs available
+            send an email to 
+        -->
+        
         <input type="submit" name="logout" value="Logout">
     </form>
     </center>
