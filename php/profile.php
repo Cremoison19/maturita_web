@@ -13,13 +13,17 @@ session_start();
 <body>
     <h2>My Profile</h2>
     <?php
-        $_SESSION['nodata'] = false;
-        $id = $_SESSION['userID'];
-        $sql = $result = null;
-        // IF USER DATA IS EMPTY, GO TO MODIFY USER DATA
         require_once "config.php";
-        $sql = "SELECT name FROM users WHERE id = '$id'";
+        
+        $sql = $result = null;
+        $email = $_SESSION['userEmail'];
+
+        // IF USER DATA IS EMPTY, GO TO MODIFY USER DATA
+        $sql = "SELECT * FROM users WHERE email = '$email'";
         $result = $pdo->query($sql)->fetch();
+
+        
+
     ?>
     <center>
     <form method="POST" action="login.php">
@@ -29,8 +33,7 @@ session_start();
 
     <footer>
         <?php
-            echo "User: ".$_SESSION['userEmail']."<br>";
-            echo "ID: ".$_SESSION['userID']."<br>";
+        echo $_SESSION['userID'];
         ?>
     </footer>
 </body>

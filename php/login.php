@@ -60,8 +60,8 @@ if($_SESSION['logged']==true){
                     $sql = "SELECT id FROM users WHERE email = '$email'";
                     $result = $pdo->query($sql)->fetch();
                     $_SESSION['userID'] = $result['id'];
-                    
-                    header("Location:/php/profile.php");
+                    // redirect to profile page
+                    echo '<script>window.location = "profile.php" </script>';
                     exit;
                 }
                 // la password non coincide
