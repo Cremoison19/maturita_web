@@ -12,7 +12,7 @@
     $dpasswordErr = "Password non valida. Inserisci una password di lunghezza maggiore di 6 caratteri e <br> con almeno un numero.";
     $demailErr = "Email non valida. Assicurati che non ci siano errori di battitura.";
 
-
+    $year = 31556926;
 
     try{
         $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);

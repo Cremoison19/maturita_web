@@ -18,13 +18,15 @@ if($_SESSION['logged']==true){
 
 <?php
 
-    $emailErr = $passwordErr = "";
-    
-    // file con impostazioni del database
-    require_once "config.php";
+
+// file con impostazioni del database
+require_once "config.php";
 
     // variabili istanziate vuote
-    $email = $password = "";
+    $email = $password = $name = $surname = $birthday = $birthplace = "";
+    $emailErr = $passwordErr = $nameErr = $surnameErr = $birthdayErr = $birthplaceErr = "";
+
+    $year = 31556926;
 
     // dopo premuto bottone
     if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -54,43 +56,106 @@ if($_SESSION['logged']==true){
                 $validate = false;
             }
         }
+        if (empty($_POST["name"])) {
+            $nameErr = "Name is required";
+        } else {
+            $name = test_input($_POST["name"]);
+            if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+            $nameErr = "Only letters and white space allowed";
+            $validate = false;
+            }
+        }
+        if (empty($_POST["surname"])) {
+            $nameErr = "Surname is required";
+        } else {
+            $surname = test_input($_POST["surname"]);
+            if (!preg_match("/^[a-zA-Z-' ]*$/",$surname)) {
+            $surnameErr = "Only letters and white space allowed";
+            $validate = false;
+            }
+        }
+        if (empty($_POST["birthplace"])) {
+            $birthplaceErr = "Birthplace is required";
+        } else {
+            $birthplace = test_input($_POST["birthplace"]);
+            if (!preg_match("/^[a-zA-Z-' ]*$/",$birthplace)) {
+            $birthplaceErr = "Only letters and white space allowed";
+            $validate = false;
+            }
+        }
+        if (empty($_POST["birthday"])) {
+            $birthdayErr = "Birthday is required";
+            $validate = false;
+        } else {
+            $birthday = strtotime($_POST["birthday"]);
+            $min = strtotime('+18 years', $birthday);
+            if(time() < $min){
+                $birthdayErr = "Birthday not possible, check your insertion";
+                $validate = false;
+            }
+        }
 
         // query (solo se tutti i campi sono stati validati)
-        if($validate){
+        if($validate == true){
+
+            try{
 
             // se la validazione è avvenuta correttamente e quindi la password è corretta, possiamo criptarla prima di inserirla nel database
             $password_c = cryptp($password);
+            $birthday = date($birthday);
 
-            $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password_c');";
+            $sql = "INSERT INTO users (email, password, name, surname, birthday, birthplace) VALUES ('$email', '$password_c', '$name', '$surname', '$birthday', '$birthplace');";
 
-            if ($pdo->query($sql) === TRUE) {
+            if ($pdo->query($sql) == TRUE) {
                 $_SESSION['logged'] = true;
-                $_SESSION['user'] = $email;
+                $_SESSION['userEmail'] = $email; 
+                echo '<script>window.location = "profile.php" </script>';
             }
-
         }
-        else{
-            echo "La validazione ha riscontrato degli errori";
+        catch(Exception $e){
+            if($e->getCode() == 23000){
+                echo "Email already in database! Try to login..";
+            }
+        }
+
         }
 
     }
 
 ?>
 
-    <center>
     <h2>Registrati</h2>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        <a href="index.php">Torna alle homepage</a><br>
+        <a href="index.php">Torna alle homepage</a><br><br>
+
         <label for="email">Email</label>
-        <input name="email" placeholder="Email" required maxlenght="320">
+        <input name="email" placeholder="Email" maxlenght="320" required>
         <span><?php echo $emailErr;?>* </span><br>
         <label for="password">Password</label>
-        <input name="password" type="password" placeholder="Password" required maxlenght="255">
-        <span><?php echo $passwordErr;?>* </span><br>
+        <input name="password" type="password" placeholder="Password"maxlenght="255" required >
+        <span><?php echo $passwordErr;?>* </span><br><br>
+
+        <label for="name">Name</label>
+        <input name="name" placeholder="Your name" maxlenght="32" required>
+        <span><?php echo $nameErr;?>* </span><br>
+
+        <label for="surname">Surname</label>
+        <input name="surname" placeholder="Your surname" maxlenght="32" required>
+        <span><?php echo $surnameErr;?>* </span><br>
+
+        <label for="birthday">Birthday</label>
+        <input name="birthday" type="date" required>
+        <span><?php echo $birthdayErr;?>* </span><br>
+
+        <label for="birthplace">Birthplace</label>
+        <input name="birthplace" placeholder="Where were you born?" maxlenght="32" required>
+        <span><?php echo $birthplaceErr;?>* </span><br>
+
+        <br>
+        
         <input type="submit" value="Registrati">
     </form>
     <a href="login.php">Login</a>
-    </center>
 
 </body>
 

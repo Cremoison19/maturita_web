@@ -1,12 +1,5 @@
 <?php
 session_start();
-if(isset($_SESSION['logged'])){
-    if($_SESSION['logged']==false){
-        session_destroy();
-        header("Location:/php/error_login.php");
-        exit;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +11,6 @@ if(isset($_SESSION['logged'])){
 </head>
 
 <body>
-
-<body>
     <h2>My Profile</h2>
     <?php
         $_SESSION['nodata'] = false;
@@ -29,18 +20,9 @@ if(isset($_SESSION['logged'])){
         require_once "config.php";
         $sql = "SELECT name FROM users WHERE id = '$id'";
         $result = $pdo->query($sql)->fetch();
-        if($result['name'] == null){
-            echo ":/";
-            $_SESSION['nodata'] = true;
-            header("Location:/php/edit_profile.php");
-        }
-
     ?>
     <center>
     <form method="POST" action="login.php">
-
-        
-        
         <input type="submit" name="logout" value="Logout">
     </form>
     </center>

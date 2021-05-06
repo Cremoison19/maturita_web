@@ -1,6 +1,10 @@
 <?php
 session_start();
 if(isset($_POST['logout'])) $_SESSION['logged'] = false;
+if($_SESSION['logged']==true){
+    header("Location:/php/profile.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -22,21 +22,18 @@
     $email = $password = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
+
         $validate = true;
-
-        // ottenimento valori dal form
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        // ottenimento dati
-        // se $_SESSION['data'] == true
-        // il dato è obbligatorio
 
         if($_SESSION['nodata'] && (isset($_POST['name'])==false || isset($_POST['surname'])==false || !isset($_POST['birthday'])==false ||!isset($_POST['birthplace'])==false)){
             echo "Non hai inserito tutti i dati, fai attenzione!";
         }
         else{
-
+            // $email = $_POST['email'];
+            if(isset($_POST['name'])) $name = $_POST['name'];
+            if(isset($_POST['surname'])) $name = $_POST['surname'];
+            if(isset($_POST['birthday'])) $name = $_POST['birthday'];
+            if(isset($_POST['name'])) $name = $_POST['name'];
         }
 
     }
