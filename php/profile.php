@@ -22,13 +22,13 @@ session_start();
         $sql = "SELECT * FROM users WHERE email = '$email'";
         $result = $pdo->query($sql)->fetch();
 
-        
-
     ?>
     <center>
     <form method="POST" action="login.php">
         <input type="submit" name="logout" value="Logout">
     </form>
+    <br>
+    <button onclick="window.location.href = 'edit_profile.php';">Edit Profile</button>
     </center>
 
     <footer>

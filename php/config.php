@@ -9,10 +9,10 @@
     // lunghezza minima delle password, impostata qua come variabile globale
 
     // errori globali
-    $dpasswordErr = "Password non valida. Inserisci una password di lunghezza maggiore di 6 caratteri e <br> con almeno un numero.";
-    $demailErr = "Email non valida. Assicurati che non ci siano errori di battitura.";
+    $dpasswordErr = "Password must be 6 characters long and with at least one number.";
+    $demailErr = "Email isn't valid. Are you sure you wrote it correctly?";
 
-    $year = 31556926;
+    $year = 31556926; // second in a year
 
     try{
         $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
@@ -32,6 +32,20 @@
     function cryptp($data) {
         return md5(md5($data)."50blessings");
         // dopo aver criptato la stringa una volta le aggiungiamo una salt, per poi criptare il tutto un'altra volta
+    }
+
+    function createJSON($id){
+        // get data from database
+        $sql = "SELECT name, surname, birthday, birthplace, email FROM users WHERE id = '$id'";
+        $result = $pdo->query($sql)->fetch();
+
+        $myObj->name = $result['name'];
+        $myObj->surname = $result['surname'];
+        $myObj->birthday = $result['birthday'];
+        $myObj->birthplace = $result['birthplace'];
+        $myObj->email = $result['email'];
+
+        $userdata = json_encode($myObj);
     }
 
 ?>
