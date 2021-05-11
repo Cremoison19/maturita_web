@@ -53,13 +53,14 @@ if($_SESSION['logged']==true){
             else {
                 // la password coincide con quella salvata nel database
                 if ($result['password'] == $password_c) {
-                    $_SESSION['logged'] = true;
-                    $_SESSION['userEmail'] = $email;
-                    
                     // save user id too
                     $sql = "SELECT id FROM users WHERE email = '$email'";
                     $result = $pdo->query($sql)->fetch();
+
+                    $_SESSION['logged'] = true;
                     $_SESSION['userID'] = $result['id'];
+                    $_SESSION['userdata'] = createJSON($_SESSION['userID']);
+                    
                     // redirect to profile page
                     echo '<script>window.location = "profile.php" </script>';
                     exit;

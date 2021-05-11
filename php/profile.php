@@ -14,14 +14,13 @@ session_start();
     <h2>My Profile</h2>
     <?php
         require_once "config.php";
+
+        $data = null;
+
+        // decode json data into an associative array
+        $data = json_decode($_SESSION['userdata'], true);
+        echo $data["Name"];
         
-        $sql = $result = null;
-        $email = $_SESSION['userEmail'];
-
-        // IF USER DATA IS EMPTY, GO TO MODIFY USER DATA
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $result = $pdo->query($sql)->fetch();
-
     ?>
     <center>
     <form method="POST" action="login.php">
@@ -33,7 +32,7 @@ session_start();
 
     <footer>
         <?php
-        echo $_SESSION['userID'];
+        echo 'User ID: '. $_SESSION['userID'];
         ?>
     </footer>
 </body>

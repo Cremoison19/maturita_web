@@ -108,7 +108,8 @@ require_once "config.php";
 
             if ($pdo->query($sql) == TRUE) {
                 $_SESSION['logged'] = true;
-                $_SESSION['userEmail'] = $email; 
+                $_SESSION['userID'] = $result['id'];
+                $_SESSION['userdata'] = createJSON($_SESSION['userID']);
                 echo '<script>window.location = "profile.php" </script>';
             }
         }

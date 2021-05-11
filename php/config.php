@@ -35,17 +35,24 @@
     }
 
     function createJSON($id){
-        // get data from database
-        $sql = "SELECT name, surname, birthday, birthplace, email FROM users WHERE id = '$id'";
-        $result = $pdo->query($sql)->fetch();
+        try{
+            $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
+            // Set the PDO error mode to exception
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // get data from database
+            $stmt = $pdo->prepare("SELECT name, surname, birthday, birthplace, email FROM users WHERE id = '$id'");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $myObj->name = $result['name'];
-        $myObj->surname = $result['surname'];
-        $myObj->birthday = $result['birthday'];
-        $myObj->birthplace = $result['birthplace'];
-        $myObj->email = $result['email'];
+            $_SESSION['userdata'] = $result;
 
-        $userdata = json_encode($myObj);
+        } catch(PDOException $e){
+            die("ERROR: Could not connect. " . $e->getMessage());
+        }
+    }
+
+    function new_line($text){
+        echo '<p> $text </p><br>';
     }
 
 ?>
