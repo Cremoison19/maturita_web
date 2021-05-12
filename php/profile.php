@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once "config.php";
+$userdata = json_decode($_SESSION['userdata'], true)[0];
 ?>
 
 <!DOCTYPE html>
@@ -11,26 +13,17 @@ session_start();
 </head>
 
 <body>
-    <h2>My Profile</h2>
-    <?php
-        require_once "config.php";
+    <h2>Hello, <?php echo $userdata['name'] ?>!</h2>
+    <p>Welcome back to your dashboard.</p>
 
-        echo $_SESSION['userdata'];
-        
-    ?>
-    <center>
+    
+
     <form method="POST" action="login.php">
         <input type="submit" name="logout" value="Logout">
     </form>
     <br>
     <button onclick="window.location.href = 'edit_profile.php';">Edit Profile</button>
-    </center>
 
-    <footer>
-        <?php
-        echo 'User ID: '. $_SESSION['userID'];
-        ?>
-    </footer>
 </body>
 
 </html>
