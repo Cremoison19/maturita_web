@@ -1,9 +1,9 @@
 <?php
-session_start();
-if(isset($_POST['logout'])) $_SESSION['logged'] = false;
-if($_SESSION['logged']==true){
-    header("Location:/php/profile.php");
-    exit;
+    session_start();
+    if(isset($_POST['logout'])) $_SESSION['logged'] = false;
+    if($_SESSION['logged']==true){
+        header("Location:/php/profile.php");
+        exit;
 }
 ?>
 <!DOCTYPE html>
@@ -39,12 +39,16 @@ if($_SESSION['logged']==true){
 
         if($validate){
 
-            // se la validazione è avvenuta correttamente e quindi la password è corretta, possiamo criptarla prima di inserirla nel database
+            // se la validazione è avvenuta correttamente e quindi la email è corretta, possiamo criptarla prima di inserirla nel database
             $password_c = cryptp($password);
+
+            // se email in utenti normali
 
             $result = $sql = "";
             $sql = "SELECT password FROM users WHERE email = '$email'";
             $result = $pdo->query($sql)->fetch();
+
+
 
             // la select non ha dato risultati -> quella email non è mai stata inserita
             if($result == null){
