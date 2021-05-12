@@ -46,6 +46,7 @@ require_once "config.php";
                 $emailErr = $demailErr;
                 $validate = false;
             }
+            else $email = $_POST['email'];
         }
 
         if (empty($_POST["password"])) {
@@ -55,6 +56,7 @@ require_once "config.php";
                 $passwordErr = $dpasswordErr;
                 $validate = false;
             }
+            else $email = $_POST['email'];
         }
         if (empty($_POST["name"])) {
             $nameErr = "Name is required";
@@ -64,6 +66,7 @@ require_once "config.php";
             $nameErr = "Only letters and white space allowed";
             $validate = false;
             }
+            else $name = $_POST['name'];
         }
         if (empty($_POST["surname"])) {
             $nameErr = "Surname is required";
@@ -73,6 +76,7 @@ require_once "config.php";
             $surnameErr = "Only letters and white space allowed";
             $validate = false;
             }
+            else $surname = $_POST['surname'];
         }
         if (empty($_POST["birthplace"])) {
             $birthplaceErr = "Birthplace is required";
@@ -82,42 +86,43 @@ require_once "config.php";
             $birthplaceErr = "Only letters and white space allowed";
             $validate = false;
             }
+            else $birthplace = $_POST['birthplace'];
         }
         if (empty($_POST["birthday"])) {
             $birthdayErr = "Birthday is required";
             $validate = false;
-        } else {
-            $birthday = strtotime($_POST["birthday"]);
-            $min = strtotime('+18 years', $birthday);
-            if(time() < $min){
-                $birthdayErr = "Birthday not possible, check your insertion";
-                $validate = false;
-            }
         }
+        else $birthday = $_POST['birthday'];
 
         // query (solo se tutti i campi sono stati validati)
         if($validate == true){
-
             try{
+                // se la validazione è avvenuta correttamente e quindi la password è corretta,
+                // possiamo criptarla prima di inserirla nel database
 
-            // se la validazione è avvenuta correttamente e quindi la password è corretta, possiamo criptarla prima di inserirla nel database
-            $password_c = cryptp($password);
-            $birthday = date($birthday);
+                $password_c = cryptp($password);
 
-            $sql = "INSERT INTO users (email, password, name, surname, birthday, birthplace) VALUES ('$email', '$password_c', '$name', '$surname', '$birthday', '$birthplace');";
+                $sql = "INSERT INTO users (email, password, name, surname, birthday, birthplace) VALUES ('$email', '$password_c', '$name', '$surname', '$birthday', '$birthplace');";
 
-            if ($pdo->query($sql) == TRUE) {
-                $_SESSION['logged'] = true;
-                $_SESSION['userID'] = $result['id'];
-                $_SESSION['userdata'] = createJSON($_SESSION['userID']);
-                echo '<script>window.location = "profile.php" </script>';
+                if ($pdo->query($sql) == TRUE) {
+
+                    $_SESSION['logged'] = true;
+
+                    // get id for user generated 
+                    $sql = "SELECT id FROM users WHERE email = '$email'";
+                    $result = $pdo->query($sql)->fetch();
+                    $_SESSION['userID'] = $result['id'];
+
+                    $_SESSION['userdata'] = createJSON($_SESSION['userID']);
+                    echo '<script>window.location = "profile.php" </script>';
+
+                }
             }
-        }
-        catch(Exception $e){
-            if($e->getCode() == 23000){
-                echo "Email already in database! Try to login..";
+            catch(Exception $e){
+                if($e->getCode() == 23000){
+                    echo "Email already in database! Try to login..";
+                }
             }
-        }
 
         }
 

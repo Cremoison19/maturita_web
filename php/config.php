@@ -44,7 +44,7 @@
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $_SESSION['userdata'] = $result;
+            return json_encode($result);
 
         } catch(PDOException $e){
             die("ERROR: Could not connect. " . $e->getMessage());

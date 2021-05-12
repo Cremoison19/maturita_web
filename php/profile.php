@@ -15,11 +15,7 @@ session_start();
     <?php
         require_once "config.php";
 
-        $data = null;
-
-        // decode json data into an associative array
-        $data = json_decode($_SESSION['userdata'], true);
-        echo $data["Name"];
+        echo $_SESSION['userdata'];
         
     ?>
     <center>
