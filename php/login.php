@@ -38,8 +38,7 @@
 
         if($validate){
 
-            // se la validazione è avvenuta correttamente e quindi la email è corretta, possiamo criptarla prima di inserirla nel database
-            $password_c = cryptp($password);
+            $password = cryptp($password);
 
             $result = $sql = "";
 
@@ -67,16 +66,15 @@
             }
 
             // CONSULENT USER
-            $sql = "SELECT count(email) FROM consulents WHERE email='$email'";
+            $sql = "SELECT count(email) FROM consulents WHERE email = '$email'";
             $result = $pdo->query($sql)->fetch();
 
             if ($result[0] > 0) {
-
-                $sql = "SELECT password FROM consulents WHERE email = '$email'";
+                $sql = "SELECT password FROM consulents WHERE email='$email'";
                 $result = $pdo->query($sql)->fetch();
                 if ($password == $result["password"]) {
                     // save user id too
-                    $sql = "SELECT id FROM consulents WHERE email = '$email'";
+                    $sql = "SELECT * FROM consulents WHERE email = '$email'";
                     $result = $pdo->query($sql)->fetch();
 
                     $_SESSION['logged'] = true;
@@ -92,19 +90,15 @@
             $sql = "SELECT count(email) FROM admins WHERE email='$email'";
             $result = $pdo->query($sql)->fetch();
             if ($result[0] > 0) {
-                echo 'admin email<br>';
                 $sql = "SELECT password FROM admins WHERE email = '$email'";
                 $result = $pdo->query($sql)->fetch();
                 if ($password == $result["password"]) {
-                    echo 'admin password<br>';
                     // save user id too
                     $sql = "SELECT id FROM admins WHERE email = '$email'";
                     $result = $pdo->query($sql)->fetch();
 
                     $_SESSION["logged"] = true;
                     $_SESSION["userID"] = "admin";
-
-                    var_dump($_SESSION["userID"]);
 
                     // redirect to admin page   
                     echo "<script>window.location = 'admin/admin.php' </script>";
