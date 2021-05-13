@@ -102,19 +102,11 @@ require_once "config.php";
 
                 $password_c = cryptp($password);
 
-                $sql = "INSERT INTO users (email, password, name, surname, birthday, birthplace) VALUES ('$email', '$password_c', '$name', '$surname', '$birthday', '$birthplace');";
+                $sql = "INSERT INTO requests (email, password, name, surname, birthday, birthplace) VALUES ('$email', '$password_c', '$name', '$surname', '$birthday', '$birthplace');";
 
                 if ($pdo->query($sql) == TRUE) {
 
-                    $_SESSION['logged'] = true;
-
-                    // get id for user generated 
-                    $sql = "SELECT id FROM users WHERE email = '$email'";
-                    $result = $pdo->query($sql)->fetch();
-                    $_SESSION['userID'] = $result['id'];
-
-                    $_SESSION['userdata'] = createJSON($_SESSION['userID']);
-                    echo '<script>window.location = "profile.php" </script>';
+                    echo 'Registration request received, when it will be accepted you ';
 
                 }
             }
