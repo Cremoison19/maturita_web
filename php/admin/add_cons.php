@@ -1,17 +1,13 @@
 <?php
 session_start();
 if(isset($_POST['logout'])) $_SESSION['logged'] = false;
-if($_SESSION['logged']==true){
-    header("Location:/php/profile_cons.php");
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrati</title>
+    <title>Add Consulents</title>
 </head>
 
 <body>
@@ -84,18 +80,16 @@ require_once "../config.php";
 
                 $password_c = cryptp($password);
 
-                $sql = "INSERT INTO consulent (email, password, name, surname) VALUES ('$email', '$password_c', '$name', '$surname');";
-                if ($pdo->query($sql) == TRUE) {
-
-                    $_SESSION['logged'] = true;
+                $sql = "INSERT INTO consulents (email, password, name, surname) VALUES ('$email', '$password_c', '$name', '$surname');";
+                if ($pdo->query($sql) == true) {
 
                     // get id for user generated 
-                    $sql = "SELECT id FROM consulent WHERE email = '$email'";
+                    $sql = "SELECT id FROM consulents WHERE email = '$email'";
                     $result = $pdo->query($sql)->fetch();
-                    $_SESSION['userID'] = $result['id'];
                     echo 'Consulent added.';
 
                 }
+                else echo "ohoh";
             }
             catch(Exception $e){
                 if($e->getCode() == 23000){
@@ -111,7 +105,7 @@ require_once "../config.php";
 
     <h2>Admin Register Consulent</h2>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        <a href="index.php">Torna alle homepage</a><br><br>
+        <a href="../index.php">Torna alle homepage</a><br><br>
 
         <label for="email">Email</label>
         <input name="email" placeholder="Email" maxlenght="320" required>
@@ -132,7 +126,7 @@ require_once "../config.php";
         
         <input type="submit" value="Registrati">
     </form>
-    <a href="login.php">Login</a>
+    <a href="admin.php">Back</a>
 
 </body>
 

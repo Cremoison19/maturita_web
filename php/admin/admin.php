@@ -19,7 +19,8 @@ if ($_SESSION["userID"] != "admin") {
 
 <body>
     <h2>Admin Page</h2>
-    <a href="add_cons.php">Add consulent to database</a>
+    <a href="add_cons.php">Add consulent to database</a><br>
+    <a href="accept_users.php">Accept users requests</a><br>
     <form method="POST" action="../login.php">
         <input type="submit" name="logout" value="Logout">
     </form>
