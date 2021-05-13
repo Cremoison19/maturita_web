@@ -1,9 +1,8 @@
 <?php
     session_start();
     if(isset($_POST['logout'])) $_SESSION['logged'] = false;
-    if($_SESSION['logged']==true){
-        header("Location:/php/profile.php");
-        exit;
+    if(isset($_SESSION["logged"])){
+        if($_SESSION["logged"]==true) $_SESSION["logged"] = false;
 }
 ?>
 <!DOCTYPE html>
@@ -42,21 +41,16 @@
             // se la validazione è avvenuta correttamente e quindi la email è corretta, possiamo criptarla prima di inserirla nel database
             $password_c = cryptp($password);
 
-            // se email in utenti normali
-
             $result = $sql = "";
-            $sql = "SELECT password FROM users WHERE email = '$email'";
+
+            // NORMAL USER 
+            $sql = "SELECT count(email) FROM users WHERE email='$email'";
             $result = $pdo->query($sql)->fetch();
-
-
-
-            // la select non ha dato risultati -> quella email non è mai stata inserita
-            if($result == null){
-                $emailErr = "Non esiste un account con quell'email. Si prega di registrarsi.";
-            }
-            else {
-                // la password coincide con quella salvata nel database
-                if ($result['password'] == $password_c) {
+            if($result[0]>0){
+                //echo 'normal user';
+                $sql = "SELECT password FROM users WHERE email = '$email'";
+                $result = $pdo->query($sql)->fetch();
+                if($password == $result["password"]){
                     // save user id too
                     $sql = "SELECT id FROM users WHERE email = '$email'";
                     $result = $pdo->query($sql)->fetch();
@@ -69,11 +63,55 @@
                     echo '<script>window.location = "profile.php" </script>';
                     exit;
                 }
-                // la password non coincide
-                else{
-                    $passwordErr = "La password inserita è sbagliata";
+                else $passwordErr = $dpasswordErr;
+            }
+
+            // CONSULENT USER
+            $sql = "SELECT count(email) FROM consulents WHERE email='$email'";
+            $result = $pdo->query($sql)->fetch();
+
+            if ($result[0] > 0) {
+
+                $sql = "SELECT password FROM consulents WHERE email = '$email'";
+                $result = $pdo->query($sql)->fetch();
+                if ($password == $result["password"]) {
+                    // save user id too
+                    $sql = "SELECT id FROM consulents WHERE email = '$email'";
+                    $result = $pdo->query($sql)->fetch();
+
+                    $_SESSION['logged'] = true;
+                    $_SESSION['userID'] = $result['id'];
+                    $_SESSION['userdata'] = createJSON($_SESSION['userID']);
+
+                    // redirect to consulent page
+                    echo '<script>window.location = "consulent/consulent.php" </script>';
+                    exit;
                 }
             }
+            // ADMIN USER
+            $sql = "SELECT count(email) FROM admins WHERE email='$email'";
+            $result = $pdo->query($sql)->fetch();
+            if ($result[0] > 0) {
+                echo 'admin email<br>';
+                $sql = "SELECT password FROM admins WHERE email = '$email'";
+                $result = $pdo->query($sql)->fetch();
+                if ($password == $result["password"]) {
+                    echo 'admin password<br>';
+                    // save user id too
+                    $sql = "SELECT id FROM admins WHERE email = '$email'";
+                    $result = $pdo->query($sql)->fetch();
+
+                    $_SESSION["logged"] = true;
+                    $_SESSION["userID"] = "admin";
+
+                    var_dump($_SESSION["userID"]);
+
+                    // redirect to admin page   
+                    echo "<script>window.location = 'admin/admin.php' </script>";
+                    exit;
+                }
+            }
+            else $emailErr = $demailErr;
 
         }
         else{

@@ -120,7 +120,7 @@ require_once "config.php";
             }
             catch(Exception $e){
                 if($e->getCode() == 23000){
-                    echo "Email already in database! Try to login..";
+                    echo $e;
                 }
             }
 
