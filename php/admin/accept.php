@@ -6,7 +6,7 @@
     
     require_once "../config.php";
 
-    $email = $password = $name = $surname = $birthday = $birthplace = "";
+    $email = $password = $name = $surname = $birthday = $birthplace = $profession = "";
     $consulent = 0;
 
     // find the consulent with less users binded
@@ -22,9 +22,10 @@
         $surname = $request_user["surname"];
         $birthday = $request_user["birthday"];
         $birthplace = $request_user["birthplace"];
+        $profession = $request_user["profession"];
         echo $email;
-    $sql = "INSERT INTO users (email, password, name, surname, birthday, birthplace, consulent)
-    VALUES ('$email', '$password', '$name', '$surname', '$birthday', '$birthplace', '$consulent');";
+    $sql = "INSERT INTO users (email, password, name, surname, birthday, birthplace, consulent, profession)
+    VALUES ('$email', '$password', '$name', '$surname', '$birthday', '$birthplace', '$consulent', '$profession');";
     $result = $pdo->query($sql);
 
     // delete request

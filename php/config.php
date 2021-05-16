@@ -4,11 +4,14 @@
     define('DB_USERNAME', 'root');
     define('DB_PASSWORD', '');
     define('DB_NAME', 'agen_colloc');
+    
+    // target for uploading cv 
+    $target_dir = "../uploads"; 
 
+    // min lenght for passwords
     $PWD_MIN_LENGTH = 6; 
-    // lunghezza minima delle password, impostata qua come variabile globale
 
-    // errori globali
+    // global error messages
     $dpasswordErr = "Password must be 6 characters long and with at least one number.";
     $demailErr = "Email isn't valid. Are you sure you wrote it correctly?";
 

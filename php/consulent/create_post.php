@@ -61,7 +61,7 @@ require_once "../config.php";
                 $id = $_SESSION["userID"];
 
                 $sql = "INSERT INTO offers (company, role, salary, location, description, consulent)
-                VALUES ('$company', '$role', '$salary', '$location', '$desc', '$id');";  
+                VALUES ('$company', '$role', '$salary', '$location', '$desc', '$id');";
 
                 $result = $pdo->query($sql);
 
@@ -73,8 +73,7 @@ require_once "../config.php";
             } catch (Exception $e) {
                 echo $e;
             }
-        }
-        else echo "Uh oh, there was an error in validation! :(";
+        } else echo "Uh oh, there was an error in validation! :(";
     }
 
     ?>
@@ -86,9 +85,19 @@ require_once "../config.php";
         <span><?php echo $companyErr; ?>* </span><br>
 
         <label for="role">Role Offered</label>
-        <input name="role" placeholder="Role" maxlenght="24">
-        <span><?php echo $roleErr; ?>* </span><br>
-        
+        <select name="role">
+            <?php
+            $sql = "SELECT * FROM professions;";
+            $result = $pdo->query($sql);
+
+            foreach ($result as $row) {
+                $row = $row[0];
+                echo "<option value=\"$row\">$row</option>";
+            }
+
+            ?>
+        </select><br>
+
         <label for="location">Location</label>
         <input name="location" placeholder="Location" maxlenght="32">
         <span><?php echo $locationErr; ?>* </span><br>
