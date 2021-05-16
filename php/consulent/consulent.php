@@ -22,12 +22,12 @@ require_once "../config.php";
     <form action="create_post.php">
         <input type="submit" name="newpost" value="Create Offer">
     </form>
-    <form method="POST" action="login.php">
+    <form method="POST" action="../login.php">
         <input type="submit" name="logout" value="Logout">
     </form>
     <h2>Offers Available</h2>
     <?php // show offers
-
+        
     ?>
 </body>
 

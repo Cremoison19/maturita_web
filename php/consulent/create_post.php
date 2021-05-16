@@ -15,7 +15,7 @@ require_once "../config.php";
     <!-- 1. consulent can create new offers, select which users will see them and post them -->
     <?php // create new offers 
     $companyErr = $roleErr = $salaryErr = $locationErr = "";
-    if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['login'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // company, role, salary, location
 
@@ -23,6 +23,10 @@ require_once "../config.php";
 
         // validation
         $validate = true;
+
+        $desc = $_POST["desc"];
+        $salary = floatval($_POST["salary"]);
+
         if (empty($_POST["company"])) {
             $nameErr = "Company name is required";
         } else {
@@ -57,7 +61,7 @@ require_once "../config.php";
                 $id = $_SESSION["userID"];
 
                 $sql = "INSERT INTO offers (company, role, salary, location, description, consulent)
-                VALUES ('$company', '$role', '$salary', '$location', '$description', '$id');";
+                VALUES ('$company', '$role', '$salary', '$location', '$desc', '$id');";  
 
                 $result = $pdo->query($sql);
 
@@ -70,6 +74,7 @@ require_once "../config.php";
                 echo $e;
             }
         }
+        else echo "Uh oh, there was an error in validation! :(";
     }
 
     ?>
@@ -77,15 +82,19 @@ require_once "../config.php";
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
         <label for="company">Company</label>
-        <input name="company" placeholder="Company Name" maxlenght="40" required>
+        <input name="company" placeholder="Company Name" maxlenght="32" required>
         <span><?php echo $companyErr; ?>* </span><br>
 
         <label for="role">Role Offered</label>
-        <input name="role" placeholder="Role" maxlenght="20">
-        <span><?php echo $roleErr; ?> </span><br>
+        <input name="role" placeholder="Role" maxlenght="24">
+        <span><?php echo $roleErr; ?>* </span><br>
+        
+        <label for="location">Location</label>
+        <input name="location" placeholder="Location" maxlenght="32">
+        <span><?php echo $locationErr; ?>* </span><br>
 
         <label for="salary">Salary</label>
-        <input name="salary" type="number" placeholder="Salary">
+        <input name="salary" type="number" placeholder="Salary" min="400" max="15000" step="50" value="1000">
         <span><?php echo $salaryErr; ?>* </span><br>
 
         <label for="desc">Description</label>
