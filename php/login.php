@@ -1,5 +1,6 @@
 <?php
     session_start();
+    
     if(isset($_POST['logout'])) $_SESSION['logged'] = false;
     if(isset($_SESSION["logged"])){
         if($_SESSION["logged"]==true) $_SESSION["logged"] = false;
