@@ -27,23 +27,28 @@ $_SESSION['logged'] = false;
     // dopo premuto bottone
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+        
         // registration into database
-
+        
         $validate = true;
-
+        $registered = false;
+        
         // ottenimento valori dal form
         $email = $_POST['email'];
         $password = $_POST['password'];
 
         // controllo valori inseriti 
-
         if (empty($_POST["email"])) {
             $emailErr = "L'email è obbligatoria";
         } else {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = $demailErr;
                 $validate = false;
-            } else $email = $_POST['email'];
+            } else if($pdo->query("SELECT id FROM users WHERE '$email'")->fetchAll()!=null){
+                $emailErr = "User already registered. Try to login.";
+                $validate = false;
+            }
+            else $email = $_POST['email'];
         }
 
         if (empty($_POST["password"])) {
@@ -111,13 +116,7 @@ $_SESSION['logged'] = false;
             }
         }
         // if registration is ok, upload curriculum
-        if($registered){
-            $allowedExts = array("pdf");
-            $temp = explode(".", $_FILES["cv"]["name"]);
-            $extension = end($temp);
-            $upload_pdf = $_FILES["cv"]["name"];
-            move_uploaded_file($_FILES["cv"]["tmp_name"], "../uploads/" . $_FILES["cv"]["name"]);
-        }
+        
     }
 
     ?>
@@ -163,12 +162,12 @@ $_SESSION['logged'] = false;
             ?>
         </select><br>
         <p>Upload your curriculum vitae: </p>
-        <input type="file" name="cv" id="cv" accept="application/pdf">
-        <input type="submit" value="Upload" name="submit">
+        <input type="file" name="cv" accept="application/pdf">
+        <br><br>
 
-        <input type="submit" value="Registrati">
-        </form>
-        <a href="login.php">Login</a>
+        <input type="submit" value="Registrati"><br>
+    </form>
+    <a href="login.php">Login</a>
 
 </body>
 
