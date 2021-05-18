@@ -13,11 +13,8 @@ $_SESSION['logged'] = false;
 <body>
 
     <?php
-
-
     // file con impostazioni del database
     require_once "config.php";
-
     // variabili istanziate vuote
     $email = $password = $name = $surname = $birthday = $birthplace = $profession = "";
     $emailErr = $passwordErr = $nameErr = $surnameErr = $birthdayErr = $birthplaceErr = $professionErr = "";
@@ -26,13 +23,11 @@ $_SESSION['logged'] = false;
 
     // dopo premuto bottone
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        
         // registration into database
-        
+
         $validate = true;
         $registered = false;
-        
+
         // ottenimento valori dal form
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -44,11 +39,13 @@ $_SESSION['logged'] = false;
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = $demailErr;
                 $validate = false;
-            } else if($pdo->query("SELECT id FROM users WHERE '$email'")->fetchAll()!=null){
+            } else if ($pdo->query("SELECT id FROM requests WHERE email='$email'")->fetchAll() != null) {
+                $emailErr = "User already pending request of registration. Try to login.";
+                $validate = false;
+            } else if ($pdo->query("SELECT id FROM users WHERE email='$email'")->fetchAll() != null) {
                 $emailErr = "User already registered. Try to login.";
                 $validate = false;
-            }
-            else $email = $_POST['email'];
+            } else $email = $_POST['email'];
         }
 
         if (empty($_POST["password"])) {
@@ -90,23 +87,25 @@ $_SESSION['logged'] = false;
             $birthdayErr = "Birthday is required";
             $validate = false;
         } else $birthday = $_POST['birthday'];
+        if (empty($_POST["profession"])) {
+            $birthdayErr = "Profession is required";
+            $validate = false;
+        } else $birthday = $_POST['profession'];
 
-        $profession = $_POST['profession'];
+
 
         // query (solo se tutti i campi sono stati validati)
         if ($validate == true) {
             try {
-                // se la validazione è avvenuta correttamente e quindi la password è corretta,
-                // possiamo criptarla prima di inserirla nel database
-
+                // crypting password before inserting it in db
                 $password_c = cryptp($password);
 
+                $registered = true;
                 $sql = "INSERT INTO requests (email, password, name, surname, birthday, birthplace, profession) 
                 VALUES ('$email', '$password_c', '$name', '$surname', '$birthday', '$birthplace', '$profession');";
 
                 if ($pdo->query($sql) == TRUE) {
                     echo 'Registration request received, when it will be accepted you ';
-                    $registered = true;
                 }
             } catch (Exception $e) {
                 if ($e->getCode() == 23000) {
@@ -114,42 +113,40 @@ $_SESSION['logged'] = false;
                     $registered = false;
                 }
             }
-        }
-        // if registration is ok, upload curriculum
-        $f = opendir("../uploads");
-        $dirs = array();
-        while (($entry = readdir($f)) !== false) {
-            array_push($dirs, $entry);
-        }
 
-        $file = $_FILES['file'];
-
-        $fileName = $file['name'];
-        $fileTmp = $file['tmp_name'];
-        $fileError = $file['error'];
-        $fileSize = $file['size'];
-
-        if (true) {
-            if (!(in_array($email, $dirs) !== false)) {
-                //CHECK FILE
-                if (strpos(strtolower($fileName), ".pdf") === false) echo "File extension not allowed.<br/><br/>";
-                else if (intval($fileSize / 1024) > 1024) echo "File is too large (Max 1MB)<br><br>";
-                else {
-                    //echo "nell'if";
-                    $fileDest = '../uploads/' . $email . ".pdf";
-                    rename($fileTmp, $fileDest);
-                    echo "File uploaded.";
+            // if registration is ok, upload curriculum
+            if ($registered) {
+                $f = opendir("../uploads");
+                $dirs = array();
+                while (($entry = readdir($f)) !== false) {
+                    array_push($dirs, $entry);
                 }
-            } else {
-                echo "Curriculum already uploaded. Wait, what? O.O";
+
+                $file = $_FILES['file'];
+
+                $fileName = $file['name'];
+                $fileTmp = $file['tmp_name'];
+                $fileError = $file['error'];
+                $fileSize = $file['size'];
+
+                if (!(in_array($email, $dirs) !== false)) {
+                    // check file
+                    if (strpos(strtolower($fileName), ".pdf") === false) echo "File extension not allowed.<br/><br/>";
+                    else if (intval($fileSize / 1024) > 1024) echo "File is too large (Max 1MB)<br><br>";
+                    else {
+                        $fileDest = '../uploads/' . $email . ".pdf";
+                        rename($fileTmp, $fileDest);
+                        // echo "File uploaded.";
+                    }
+                }
             }
-        } 
+        }
     }
 
     ?>
 
     <h2>Sign-up</h2>
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <a href="index.php">Torna alle homepage</a><br><br>
 
         <label for="email">Email</label>
@@ -189,7 +186,7 @@ $_SESSION['logged'] = false;
             ?>
         </select><br>
         <p>Upload your curriculum vitae: </p>
-        <input type="file" name="cv" accept="application/pdf">
+        <input type="file" name="file" accept="application/pdf" required>
         <br><br>
 
         <input type="submit" value="Registrati"><br>

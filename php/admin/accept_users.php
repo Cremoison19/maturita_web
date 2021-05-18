@@ -6,10 +6,6 @@ if (isset($_POST['logout'])) $_SESSION['logged'] = false;
 <html lang="en">
 
 <head>
-
-<!-- 
-    Remember to style <table> 
--->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Consulents</title>
 </head>
@@ -48,17 +44,20 @@ if (isset($_POST['logout'])) $_SESSION['logged'] = false;
                 $name = $row["name"];
                 $surname = $row["surname"];
                 $created_at = $row["created_at"];
+                $cvPosition = "../../uploads/$email.pdf";
 
                 echo "<tr>
-                    <td>$id</td>
-                    <td>$email</td>
-                    <td>$name</td>
-                    <td>$surname</td>
-                    <td>$created_at</td>
-                    <td><a href='accept.php?id=$id'>Accept</a>";
-                    for ($i = 0; $i < 10; $i++) echo "&nbsp"; // print 10 spaces
-                    echo "<a href='reject.php?id=$id'>Refuse</a></td>
+                <td>$id</td>
+                <td>$email</td>
+                <td>$name</td>
+                <td>$surname</td>
+                <td>$created_at</td>
+                <td>$cvPosition</td>
+                <td><a href='accept.php?id=$id'>Accept</a>";
+                for ($i = 0; $i < 10; $i++) echo "&nbsp"; // print 10 spaces
+                echo "<a href='reject.php?id=$id'>Refuse</a></td>
                 </tr>";
+                
 
             }
         }
