@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+// require_once "config.php";
 ?>
 <html>
 
@@ -8,16 +8,15 @@ require_once "config.php";
 
 <body>
     <?php
-    if () {
+    if (isset($_POST)) {
 
-        $f = opendir("/uploads");
+        $f = opendir("../uploads");
         $dirs = array();
         while (($entry = readdir($f)) !== false) {
             array_push($dirs, $entry);
         }
 
         $file = $_FILES['file'];
-        var_dump($file);
 
         $fileName = $file['name'];
         $fileTmp = $file['tmp_name'];
@@ -27,34 +26,19 @@ require_once "config.php";
         if (true) {
             if (!(in_array($fileName, $dirs) !== false)) {
                 //CHECK FILE
-                if (strpos(strtolower($fileName), ".pdf") === false) {
-                    echo "<center>";
-                    echo "File extension not allowed.<br/><br/>";
-                    echo "</center>";
-                } else if (intval($fileSize / 1024) > 51200) {
-                    echo "<center>";
-                    echo "File is too large.<br/><br/>";
-                    echo "</center>";
-                } else {
+                if (strpos(strtolower($fileName), ".pdf") === false) echo "File extension not allowed.<br/><br/>";
+                else if (intval($fileSize / 1024) > 1024) echo "File is too large (Max 1MB)<br><br>";
+                else {
                     //echo "nell'if";
-                    $fileDest = '/uploads/' . $fileName;
-                    move_uploaded_file($fileTmp, $fileDest);
-                    echo "LESGOOO";
+                    $fileDest = '../uploads/' . "mirkopiras.01@gmail.com" . ".pdf";
+                    rename($fileTmp, $fileDest);
+                    echo "File uploaded.";
                 }
             } else {
-                if ($fileName != "") {
-                    echo "<center><br/>This file name is already used.<br/><br/>";
-                    include 'style/homebutton.php';
-                    echo "</center>";
-                } else {
-                    echo "<center><br/>You have to select a file first.<br/><br/>";
-                    include 'style/homebutton.php';
-                    echo "</center>";
-                }
+                echo "";
             }
         } 
     }
-    
     ?>
     <h2>File Upload</h2>
     <form method="POST" enctype="multipart/form-data">

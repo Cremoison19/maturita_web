@@ -116,7 +116,34 @@ $_SESSION['logged'] = false;
             }
         }
         // if registration is ok, upload curriculum
-        
+        $f = opendir("../uploads");
+        $dirs = array();
+        while (($entry = readdir($f)) !== false) {
+            array_push($dirs, $entry);
+        }
+
+        $file = $_FILES['file'];
+
+        $fileName = $file['name'];
+        $fileTmp = $file['tmp_name'];
+        $fileError = $file['error'];
+        $fileSize = $file['size'];
+
+        if (true) {
+            if (!(in_array($email, $dirs) !== false)) {
+                //CHECK FILE
+                if (strpos(strtolower($fileName), ".pdf") === false) echo "File extension not allowed.<br/><br/>";
+                else if (intval($fileSize / 1024) > 1024) echo "File is too large (Max 1MB)<br><br>";
+                else {
+                    //echo "nell'if";
+                    $fileDest = '../uploads/' . $email . ".pdf";
+                    rename($fileTmp, $fileDest);
+                    echo "File uploaded.";
+                }
+            } else {
+                echo "Curriculum already uploaded. Wait, what? O.O";
+            }
+        } 
     }
 
     ?>
