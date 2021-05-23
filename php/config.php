@@ -7,6 +7,10 @@
     
     // target for uploading cv 
     $target_dir = "../uploads"; 
+    // target for saving posts for users
+    $json_dir = "../json";
+
+
 
     // min lenght for passwords
     $PWD_MIN_LENGTH = 6; 

@@ -33,6 +33,7 @@ $_SESSION['logged'] = false;
         $password = $_POST['password'];
 
         // controllo valori inseriti 
+        $profession = $_POST["profession"];
         if (empty($_POST["email"])) {
             $emailErr = "L'email è obbligatoria";
         } else {
@@ -87,11 +88,10 @@ $_SESSION['logged'] = false;
             $birthdayErr = "Birthday is required";
             $validate = false;
         } else $birthday = $_POST['birthday'];
-        if (empty($_POST["profession"])) {
-            $birthdayErr = "Profession is required";
+        if (empty($_POST["birthday"])) {
+            $birthdayErr = "Birthday is required";
             $validate = false;
-        } else $birthday = $_POST['profession'];
-
+        } else $birthday = $_POST['birthday'];
 
 
         // query (solo se tutti i campi sono stati validati)

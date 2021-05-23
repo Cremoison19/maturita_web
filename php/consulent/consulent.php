@@ -70,6 +70,7 @@ require_once "../config.php";
                     <td>€$salary</td>
                     <td>$location</td>
                     <td>$desc</td>
+                    <td><a href=\"send_post.php?id=$id\">Send Post</a></td>
                     <td><a href=\"remove_post.php?id=$id\">Remove</a></td>
                 </tr>";
             }

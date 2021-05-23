@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once "config.php";
-$userdata = json_decode($_SESSION['userdata'], true)[0];
+if(!isset($_SESSION["userdata"])) header("Location: login.php");
+$userdata = $_SESSION["userdata"];
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +23,8 @@ $userdata = json_decode($_SESSION['userdata'], true)[0];
     <p>Birthday: <?php echo $userdata['birthday'] ?></p>
     <p>Birthplace: <?php echo $userdata['birthplace'] ?></p>
     <p>E-mail: <?php echo $userdata['email'] ?></p>
+    <?php $email = $userdata["email"];?>
+    <?php echo "<a href=\"../uploads/$email.pdf\">Open Curriculum</a>"?>
 
     <h3>Offers</h3>
 
@@ -29,8 +32,9 @@ $userdata = json_decode($_SESSION['userdata'], true)[0];
         <input type="submit" name="logout" value="Logout">
     </form>
     <br>
-    <button onclick="window.location.href = 'edit_profile.php';">Edit Profile</button>
-
+    <?php 
+    if($_SESSION['usertype']==0) echo "<button onclick=\"window.location.href = 'edit_profile.php';\">Edit Profile</button>";
+    ?>
 </body>
 
 </html>

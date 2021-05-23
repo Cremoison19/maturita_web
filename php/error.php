@@ -3,13 +3,6 @@
 
 <?php
 session_start();
-if(isset($_SESSION['logged'])){
-    if($_SESSION['logged']==true){
-        header("Location:/php/profile.php");
-        exit;
-    }
-}
-
 ?>
 
 <!DOCTYPE html>

@@ -7,7 +7,7 @@ if (isset($_POST['logout'])) $_SESSION['logged'] = false;
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Consulents</title>
+    <title>Accept Users</title>
 </head>
 
 <body>
@@ -26,6 +26,7 @@ if (isset($_POST['logout'])) $_SESSION['logged'] = false;
             <th>Name</th>
             <th>Surname</th>
             <th>Created at</th>
+            <th>Consulent</th>
         </tr>
     <?php
 
@@ -34,7 +35,7 @@ if (isset($_POST['logout'])) $_SESSION['logged'] = false;
         // get all requests from users
         $sql = "SELECT id, email, name, surname, created_at FROM requests;";
         $result = $pdo->query($sql);
-
+        
         // https://coursesweb.net/php-mysql/display-data-array-mysql-html-table_t
         // select to table guide
         if ($result !== false) {
@@ -57,8 +58,6 @@ if (isset($_POST['logout'])) $_SESSION['logged'] = false;
                 for ($i = 0; $i < 10; $i++) echo "&nbsp"; // print 10 spaces
                 echo "<a href='reject.php?id=$id'>Refuse</a></td>
                 </tr>";
-                
-
             }
         }
 

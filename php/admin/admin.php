@@ -1,11 +1,10 @@
 <?php
 session_start();
-if ($_SESSION["userID"] != "admin") {
+if ($_SESSION["usertype"] != 2) {
     // redirect to error page
     echo '<script>window.location = "../error.php" </script>';
     exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
