@@ -2,7 +2,7 @@
 session_start();
 require_once "../config.php";
 
-if ($_SESSION['usertype'] != 1) header("Location: ../index.php");
+if ($_SESSION['usertype'] != 1) header("Location: ../login.php");
 
 $userid = $_SESSION["userdata"]["id"];
 $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -17,18 +17,13 @@ $location = $result["location"];
 $desc = $result["description"];
 
 // get datas of users
-$sql = "SELECT DISTINCT users.id, users.name, users.surname, users.profession
+$sql = "SELECT DISTINCT users.email, users.name, users.surname, users.profession
         FROM users, consulents 
         WHERE users.consulent = '$userid'
         ORDER BY users.surname";
 $result = $pdo->query($sql);
 
-function check_array($str)
-{
-}
-
 if (isset($_POST['submit'])) {
-
     // send post (add to users json)
     // from: https://thisinterestsme.com/modifying-json-file-php/
     if (!empty($_POST['users'])) {
@@ -37,14 +32,14 @@ if (isset($_POST['submit'])) {
         $json = file_get_contents("../$user_posts_json");
         // var_dump(json_decode($json, true));
         $json_decoded = json_decode($json, true); // json to assoc. array
-        foreach ($users as $row) {
-            if(in_array((string)$postid, $json_decoded["users"][(string)$row])){
-                echo $json_decoded["users"][$row]." post già postato!";
-            }
+        //var_dump($json_decoded["users"][0]);
+        for ($i=0; $i<sizeof($users); $i++) {  // per ogni utente 
+            // trova la sua linea nel json
+            $line = $json_decoded["users"][$i];
+            echo var_dump($line)."<br>";
         }
     }
 }
-
 
 ?>
 
@@ -71,9 +66,9 @@ if (isset($_POST['submit'])) {
             if ($result !== false) {
                 foreach ($result as $row) {
                     $surname = $row["surname"];
-                    $id = $row["id"];
+                    $mail = $row["email"];
                     echo "<label for=\"users[]\">$surname</label>";
-                    echo "<input type=\"checkbox\" name=\"users[]\" value=\"$id\"><br>";
+                    echo "<input type=\"checkbox\" name=\"users[]\" value=\"$mail\"><br>";
                 }
             }
             ?>
