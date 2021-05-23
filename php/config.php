@@ -9,6 +9,7 @@
     $target_dir = "../uploads"; 
     // target for saving posts for users
     $json_dir = "../json";
+    $user_posts_json = "../json/user_posts.json";
 
 
 

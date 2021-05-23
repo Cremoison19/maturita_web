@@ -23,11 +23,28 @@ $sql = "SELECT DISTINCT users.id, users.name, users.surname, users.profession
         ORDER BY users.surname";
 $result = $pdo->query($sql);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+function check_array($str)
+{
+}
+
+if (isset($_POST['submit'])) {
 
     // send post (add to users json)
-    
+    // from: https://thisinterestsme.com/modifying-json-file-php/
+    if (!empty($_POST['users'])) {
+        $users = $_POST['users'];
+        // open json file
+        $json = file_get_contents("../$user_posts_json");
+        // var_dump(json_decode($json, true));
+        $json_decoded = json_decode($json, true); // json to assoc. array
+        foreach ($users as $row) {
+            if(in_array((string)$postid, $json_decoded["users"][(string)$row])){
+                echo $json_decoded["users"][$row]." post già postato!";
+            }
+        }
+    }
 }
+
 
 ?>
 
@@ -39,27 +56,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <body>
     <h2>Send Post</h2>
+    <button onclick="window.location.href = 'consulent.php';">Back</button>
     <?php
     // print offer infos
     // <input type="checkbox" name="formWheelchair" value="Yes"/> 
-    echo "<h3>$company - $role in $location</h3><br>";
-    echo "$desc"; ?>
+    echo "<h3>$company - $role in $location</h3>";
+    echo "$desc<br><br>"; ?>
 
-    <form method="POST">
-        <!-- <input type="checkbox" name="formWheelchair" value="Yes"/> -->
-        <?php
-        // check users to sent offers to
-        if ($result !== false) {
-            foreach ($result as $row) {
-                $surname = $row["surname"];
-                $id = $row["id"];
-                echo "<label for=\"$surname\">$surname</label>";
-                echo "<input type=\"checkbox\" name=\"$surname\" value=\"$id\"><br>";
+    <div class="users">
+        <form method="POST">
+            <!-- <input type="checkbox" name="formWheelchair" value="Yes"/> -->
+            <?php
+            // build checkboxes to send offers to
+            if ($result !== false) {
+                foreach ($result as $row) {
+                    $surname = $row["surname"];
+                    $id = $row["id"];
+                    echo "<label for=\"users[]\">$surname</label>";
+                    echo "<input type=\"checkbox\" name=\"users[]\" value=\"$id\"><br>";
+                }
             }
-        }
-        ?>
-        <input type="submit" value="Send Post">
-    </form>
+            ?>
+            <input type="submit" name="submit" value="Send Post">
+        </form>
+    </div>
 
 
 </body>
