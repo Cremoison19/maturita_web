@@ -48,7 +48,7 @@ require_once "../config.php";
         <?php
 
         require_once "../config.php";
-        $id = $_SESSION["userID"];
+        $id = $_SESSION["userdata"]["id"];
         // get all requests from users
         $sql = "SELECT id, company, role, salary, location, description FROM offers WHERE consulent='$id';";
         $result = $pdo->query($sql);

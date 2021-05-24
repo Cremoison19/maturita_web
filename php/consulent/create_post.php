@@ -57,9 +57,8 @@ require_once "../config.php";
 
         if ($validate) {
             try {
-
-                $id = $_SESSION["userID"];
-
+                $pdo->query("SET FOREIGN_KEY_CHECKS=0;");
+                $id = $_SESSION["userdata"]["id"];
                 $sql = "INSERT INTO offers (company, role, salary, location, description, consulent)
                 VALUES ('$company', '$role', '$salary', '$location', '$desc', '$id');";
 

@@ -1,14 +1,13 @@
 <?php
 session_start();
 require_once "../config.php";
+// ini_set('display_errors', 0); // to not see Notice erros
 
 if ($_SESSION['usertype'] != 1) header("Location: ../login.php");
 
 $userid = $_SESSION["userdata"]["id"];
 $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $postid = explode("=", parse_url($url, PHP_URL_QUERY))[1];
-
-$json_pos = "../$user_posts_json";
 
 $sql = "SELECT company, role, salary, location, description FROM offers WHERE id='$postid';";
 $result = $pdo->query($sql)->fetch();
@@ -19,7 +18,8 @@ $location = $result["location"];
 $desc = $result["description"];
 
 // get datas of users
-$sql = "SELECT DISTINCT users.email, users.name, users.surname, users.profession
+// $pdo->query("SET FOREIGN_KEY_CHECKS=0;");
+$sql = "SELECT DISTINCT users.id, users.name, users.surname, users.profession
         FROM users, consulents 
         WHERE users.consulent = '$userid'
         ORDER BY users.surname";
@@ -30,36 +30,18 @@ if (isset($_POST['submit'])) {
     // from: https://thisinterestsme.com/modifying-json-file-php/
     if (!empty($_POST['users'])) {
         $users = $_POST['users'];
-        // open json file
-        $json = file_get_contents($json_pos);
-        $json_decoded = json_decode($json, true); // json to assoc. array
-
-        for ($i=0; $i<sizeof($users); $i++) {
-            // get this user line inside json file
-            $email = [$users][$i][0];
-            $email = (string)$email;
-            $line = $json_decoded["users"][0][$email];
-            if($line == null) {
-                // if it is null, create it with the post id associated to it
-                $push = array((string)$users[$i]=>$postid);
-                array_push($json_decoded["users"][0], $push);
-                echo var_dump($json_decoded)."<br>";
-            }   
-            else if(in_array($postid, $line)){
-                // post already in user array
-                echo "error: user $users[$i] already can see that post!";
+        for ($i = 0; $i < sizeof($users); $i++) {
+            $user = $users[$i];
+            $sql = "SELECT user FROM users_offers WHERE user ='$user' AND offer='$postid'";
+            $try = $pdo->query($sql)->fetchAll();
+            // var_dump($try);
+            if ($try == null) {
+                $sql = "INSERT INTO `users_offers` (`user`, `offer`) VALUES ('$user', '$postid')";
+                $pdo->query($sql);
+                echo "Post sent.";
+            } else {
                 continue;
             }
-            else{
-                $push = array((string)$users[$i] => $postid);
-                array_push($json_decoded["users"][0], $push);
-                echo var_dump($json_decoded) . "<br>";
-            }
-
-            // encode the array back into a json string
-            $json = json_encode($json_decoded);
-            // save the file
-            // file_put_contents($json_pos, $json);
         }
     }
 }
@@ -89,9 +71,10 @@ if (isset($_POST['submit'])) {
             if ($result !== false) {
                 foreach ($result as $row) {
                     $surname = $row["surname"];
-                    $mail = $row["email"];
+                    $id = $row["id"];
+                    echo "<input type=\"checkbox\" name=\"users[]\" value=\"$id\">";
                     echo "<label for=\"users[]\">$surname</label>";
-                    echo "<input type=\"checkbox\" name=\"users[]\" value=\"$mail\"><br>";
+                    echo "<br>";
                 }
             }
             ?>
