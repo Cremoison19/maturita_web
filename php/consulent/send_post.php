@@ -26,8 +26,6 @@ $sql = "SELECT DISTINCT users.id, users.name, users.surname, users.profession
 $result = $pdo->query($sql);
 
 if (isset($_POST['submit'])) {
-    // send post (add to users json)
-    // from: https://thisinterestsme.com/modifying-json-file-php/
     if (!empty($_POST['users'])) {
         $users = $_POST['users'];
         for ($i = 0; $i < sizeof($users); $i++) {
