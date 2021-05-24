@@ -8,6 +8,8 @@ $userid = $_SESSION["userdata"]["id"];
 $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $postid = explode("=", parse_url($url, PHP_URL_QUERY))[1];
 
+$json_pos = "../$user_posts_json";
+
 $sql = "SELECT company, role, salary, location, description FROM offers WHERE id='$postid';";
 $result = $pdo->query($sql)->fetch();
 
@@ -29,14 +31,35 @@ if (isset($_POST['submit'])) {
     if (!empty($_POST['users'])) {
         $users = $_POST['users'];
         // open json file
-        $json = file_get_contents("../$user_posts_json");
-        // var_dump(json_decode($json, true));
+        $json = file_get_contents($json_pos);
         $json_decoded = json_decode($json, true); // json to assoc. array
-        //var_dump($json_decoded["users"][0]);
-        for ($i=0; $i<sizeof($users); $i++) {  // per ogni utente 
-            // trova la sua linea nel json
-            $line = $json_decoded["users"][$i];
-            echo var_dump($line)."<br>";
+
+        for ($i=0; $i<sizeof($users); $i++) {
+            // get this user line inside json file
+            $email = [$users][$i][0];
+            $email = (string)$email;
+            $line = $json_decoded["users"][0][$email];
+            if($line == null) {
+                // if it is null, create it with the post id associated to it
+                $push = array((string)$users[$i]=>$postid);
+                array_push($json_decoded["users"][0], $push);
+                echo var_dump($json_decoded)."<br>";
+            }   
+            else if(in_array($postid, $line)){
+                // post already in user array
+                echo "error: user $users[$i] already can see that post!";
+                continue;
+            }
+            else{
+                $push = array((string)$users[$i] => $postid);
+                array_push($json_decoded["users"][0], $push);
+                echo var_dump($json_decoded) . "<br>";
+            }
+
+            // encode the array back into a json string
+            $json = json_encode($json_decoded);
+            // save the file
+            // file_put_contents($json_pos, $json);
         }
     }
 }

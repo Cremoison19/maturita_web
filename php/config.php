@@ -38,8 +38,8 @@
     }
 
     function cryptp($data) {
-        return md5(md5($data)."50blessings");
-        // dopo aver criptato la stringa una volta le aggiungiamo una salt, per poi criptare il tutto un'altra volta
+        $salt = "50blessings"; // SALT VALUE
+        return md5(md5($data).$salt);
     }
 
     function createJSON($id){
