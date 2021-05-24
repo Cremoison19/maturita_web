@@ -22,20 +22,22 @@ require_once "../config.php";
     <form method="POST" action="../login.php">
         <input type="submit" name="logout" value="Logout">
     </form>
+
     <h2>Statistics</h2>
-
-    <!-- 
-        SHOW GRAPHS OF PROFESSIONS SEARCHED BY COMPANIES
-        PRINT PROFESSION MOST SEARCHED
-    -->
-
     <?php
-        echo "<b>Most researched job</b>: ?.";
+    // job with offer : answer ratio higher 
+    // get ratios n_offers : n_users
+    $sql = "SELECT role, COUNT(id) AS 'N Offers' FROM offers GROUP BY role"; 
+    $n_offers = $pdo->query($sql)->fetchAll(PDO::FETCH_GROUP);
+    // var_dump($n_offers);
+    $sql = "SELECT profession, COUNT(id) AS 'N Prof.' FROM users GROUP BY profession"; 
+    $n_users = $pdo->query($sql)->fetchAll(PDO::FETCH_GROUP);
+
+    echo "<b>Most researched job</b>: ?.";
+
     ?>
 
     <h2>Offers Available</h2>
-
-    <!-- SAME CODE FOR USER -->
 
     <table>
         <tr>
