@@ -5,6 +5,8 @@ session_start();
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
@@ -105,7 +107,7 @@ session_start();
 
     ?>
 
-    <center>
+    <div class="container-fluid pt-3 pb-4 bg-dark text-center text-white">
         <h2>Login</h2>
         <a href="index.php">Torna alle homepage</a>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -119,7 +121,8 @@ session_start();
             <br><br>
             <a href="signup.php">Registrati</a>
         </form>
-    </center>
+
+    </div>
 </body>
 
 </html>
