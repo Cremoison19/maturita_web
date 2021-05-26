@@ -6,7 +6,7 @@ session_start();
 
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
@@ -107,21 +107,27 @@ session_start();
 
     ?>
 
-    <div class="container-fluid pt-3 pb-4 bg-dark text-center text-white">
-        <h2>Login</h2>
-        <a href="index.php">Torna alle homepage</a>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <legend for="email">Email</legend>
-            <input name="email" type="email"><br>
-            <span><?php echo $emailErr; ?></span><br>
-            <legend for="password">Password</legend>
-            <input name="password" type="password"><br>
-            <span><?php echo $passwordErr; ?></span><br><br><br>
-            <input name="login" type="submit" value="Accedi">
-            <br><br>
-            <a href="signup.php">Registrati</a>
-        </form>
+    <div class="container pt-3 pb-4 text-center text-white">
+        <div class="card login">
+            <div class="card-body">
+                <div class="card-header">
+                    <h2>Login</h2>
+                    <a href="index.php">Torna alle homepage</a>
+                </div>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <legend for="email">Email</legend>
+                    <input name="email" type="email"><br>
+                    <span><?php echo $emailErr; ?></span><br>
+                    <legend for="password">Password</legend>
+                    <input name="password" type="password"><br>
+                    <span><?php echo $passwordErr; ?></span><br><br><br>
+                    <input class="btn btn-light" name="login" type="submit" value="Accedi">
+                    <br><br>
+                    <a href="signup.php">Registrati</a>
+                </form>
+            </div>
 
+        </div>
     </div>
 </body>
 

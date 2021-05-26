@@ -37,6 +37,27 @@ function cryptp($data)
     return md5(md5($data) . $salt);
 }
 
+function swap($a, $b)
+{
+    $c = $a;
+    $a = $b;
+    $b = $c;
+}
+
+function bubblesort($arr)
+{
+    $len = sizeof($arr);
+    do {
+        $swap = 0;
+        for ($i = 0; $i < $len - 1; $i++) {
+            if ($arr[$i] < $arr[$i + 1]) {
+                swap($arr[$i], $arr[$i + 1]);
+                $swap = 1;
+            }
+        }
+    } while ($swap = 1);
+}
+
 try {
     $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
     // Set the PDO error mode to exception

@@ -1,0 +1,38 @@
+body {
+    background-color: #746C70;
+}
+.login{
+    background-color: #647C90;
+}
+.login a{
+    color: white;
+}
+.header {
+    color: #4E4F50;
+    background-color: #E2DED0;
+    margin-bottom:2rem;
+    padding: 1rem;
+}
+.header input{
+    margin: .2rem;
+}
+.infos{
+    background-color: #4E4F50;
+    padding: 20px;
+    margin:2rem;
+    color: #E2DED0;
+}
+.offers-dashboard{
+    background-color: #647C90;
+    color: #E2DED0;
+    padding: 1rem;
+    text-align:center;
+}
+.offers-dashboard a {
+    margin:.2rem;
+    margin-left:1rem;
+    color:#4E4F50; 
+}
+.desc{
+    margin:2rem;
+}
