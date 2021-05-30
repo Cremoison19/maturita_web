@@ -49,35 +49,46 @@ if (isset($_POST['submit'])) {
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" type="media" href="../style.css">
     <title>Send Post</title>
 </head>
 
 <body>
-    <h2>Send Post</h2>
-    <button onclick="window.location.href = 'consulent.php';">Back</button>
-    <?php
-    // print offer infos
-    // <input type="checkbox" name="formWheelchair" value="Yes"/> 
-    echo "<h3>$company - $role in $location</h3>";
-    echo "$desc<br><br>"; ?>
-
-    <div class="users">
-        <form method="POST">
-            <!-- <input type="checkbox" name="formWheelchair" value="Yes"/> -->
+    <div class="header container-fluid text-center pb-8">
+        <h2>Send Post</h2>
+        <button class="btn btn-dark" onclick="window.location.href = 'consulent.php';">Back</button>
+    </div>
+    <div class="col lg-3 card login mx-auto">
+        <div class="card-body rounded">
             <?php
-            // build checkboxes to send offers to
-            if ($result !== false) {
-                foreach ($result as $row) {
-                    $surname = $row["surname"];
-                    $id = $row["id"];
-                    echo "<input type=\"checkbox\" name=\"users[]\" value=\"$id\">";
-                    echo "<label for=\"users[]\">$surname</label>";
-                    echo "<br>";
-                }
-            }
-            ?>
-            <input type="submit" name="submit" value="Send Post">
-        </form>
+            // print offer infos
+            // <input type="checkbox" name="formWheelchair" value="Yes"/> 
+            echo "<h3>$company - $role in $location</h3>";
+            echo "$desc<br><br>"; ?>
+
+            <div class="users">
+                <form method="POST" class="form-check">
+                    <!-- <input type="checkbox" name="formWheelchair" value="Yes"/> -->
+                    <?php
+                    // build checkboxes to send offers to
+                    if ($result !== false) {
+                        foreach ($result as $row) {
+                            $surname = $row["surname"];
+                            $name = $row["name"];
+                            $id = $row["id"];
+                            $profession = $row["profession"];
+                            echo "<input class=\"form-check-input\" type=\"checkbox\" name=\"users[]\" value=\"\">";
+                            echo "<label class=\"form-check-label\" for=\"users[]\">$surname $name - $profession</label>";
+                            echo "<br>";
+                        }
+                    }
+                    ?>
+                    <br>
+                    <input class="btn btn-dark" type="submit" name="submit" value="Send Post">
+                </form>
+            </div>
+        </div>
     </div>
 
 

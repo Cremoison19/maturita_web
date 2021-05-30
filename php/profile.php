@@ -35,6 +35,7 @@ $userdata = $_SESSION["userdata"];
                     <p>Birthday: <?php echo $userdata['birthday'] ?></p>
                     <p>Birthplace: <?php echo $userdata['birthplace'] ?></p>
                     <p>E-mail: <?php echo $userdata['email'] ?></p>
+                    <p>Profession: <?php echo $userdata['profession'] ?></p>
                     <?php $email = $userdata["email"]; ?>
                     <?php echo "<a href=\"../uploads/$email.pdf\">Open Curriculum</a>" ?>
 
@@ -47,7 +48,7 @@ $userdata = $_SESSION["userdata"];
                     <?php
                     // select posts for user
                     $id = $userdata['id'];
-                    $sql = "SELECT offer FROM users_offers WHERE user ='$id'";
+                    $sql = "SELECT offer FROM users_offers WHERE user ='$id' ORDER BY 'user'";
                     $result = $pdo->query($sql)->fetchAll();
 
                     if ($result !== array()) {

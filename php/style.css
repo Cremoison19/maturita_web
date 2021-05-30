@@ -2,6 +2,7 @@ body {
     background-color: #746C70;
 }
 .login{
+    width: 50rem;
     background-color: #647C90;
 }
 .login a{
@@ -32,6 +33,9 @@ body {
     margin:.2rem;
     margin-left:1rem;
     color:#4E4F50; 
+}
+.offers-dashboard li{
+    color: #4E4F50;
 }
 .desc{
     margin:2rem;

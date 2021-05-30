@@ -7,6 +7,8 @@ $_SESSION['logged'] = false;
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" type="media" href="style.css">
     <title>Sign-up</title>
 </head>
 
@@ -145,54 +147,61 @@ $_SESSION['logged'] = false;
 
     ?>
 
-    <h2>Sign-up</h2>
-    <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <a href="index.php">Torna alle homepage</a><br><br>
+    <div class="container pt-3 pb-4 text-center text-white">
+        <div class="card login mx-auto">
+            <div class="card-header">
+                <h2>Sign-up</h2>
+                <form method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <a href="index.php">Torna alle homepage</a><br>
+                    <a href="login.php">Login</a>
+            </div>
+            <div class="card-body">
+                <label for="email">Email</label>
+                <input name="email" placeholder="Email" maxlenght="320" required>
+                <span><?php echo $emailErr; ?>* </span><br>
+                <label for="password">Password</label>
+                <input name="password" type="password" placeholder="Password" maxlenght="255" required>
+                <span><?php echo $passwordErr; ?>* </span><br><br>
 
-        <label for="email">Email</label>
-        <input name="email" placeholder="Email" maxlenght="320" required>
-        <span><?php echo $emailErr; ?>* </span><br>
-        <label for="password">Password</label>
-        <input name="password" type="password" placeholder="Password" maxlenght="255" required>
-        <span><?php echo $passwordErr; ?>* </span><br><br>
+                <label for="name">Name</label>
+                <input name="name" placeholder="Your name" maxlenght="32" required>
+                <span><?php echo $nameErr; ?>* </span><br>
 
-        <label for="name">Name</label>
-        <input name="name" placeholder="Your name" maxlenght="32" required>
-        <span><?php echo $nameErr; ?>* </span><br>
+                <label for="surname">Surname</label>
+                <input name="surname" placeholder="Your surname" maxlenght="32" required>
+                <span><?php echo $surnameErr; ?>* </span><br>
 
-        <label for="surname">Surname</label>
-        <input name="surname" placeholder="Your surname" maxlenght="32" required>
-        <span><?php echo $surnameErr; ?>* </span><br>
+                <label for="birthday">Birthday</label>
+                <input name="birthday" type="date" required>
+                <span><?php echo $birthdayErr; ?>* </span><br>
 
-        <label for="birthday">Birthday</label>
-        <input name="birthday" type="date" required>
-        <span><?php echo $birthdayErr; ?>* </span><br>
+                <label for="birthplace">Birthplace</label>
+                <input name="birthplace" placeholder="Where were you born?" maxlenght="32" required>
+                <span><?php echo $birthplaceErr; ?>* </span><br>
 
-        <label for="birthplace">Birthplace</label>
-        <input name="birthplace" placeholder="Where were you born?" maxlenght="32" required>
-        <span><?php echo $birthplaceErr; ?>* </span><br>
+                <select name="profession" class="custom-select-sm">
+                    <?php
+                    $sql = "SELECT * FROM professions;";
+                    $result = $pdo->query($sql);
 
-        <label for="profession">Profession</label>
-        <select name="profession">
-            <?php
-            $sql = "SELECT * FROM professions;";
-            $result = $pdo->query($sql);
+                    foreach ($result as $row) {
+                        $row = $row[0];
+                        echo "<option value=\"$row\">$row</option>";
+                    }
 
-            foreach ($result as $row) {
-                $row = $row[0];
-                echo "<option value=\"$row\">$row</option>";
-            }
+                    ?>
+                </select><br><br>
+                <div class="custom-file">
+                    <label class="custom-file-label" for="file">Upload your curriculum vitae</label>
+                    <input class="custom-file-input" type="file" name="file" accept="application/pdf" required>
+                </div>
+                <br><br>
 
-            ?>
-        </select><br>
-        <p>Upload your curriculum vitae: </p>
-        <input type="file" name="file" accept="application/pdf" required>
-        <br><br>
-
-        <input type="submit" value="Registrati"><br>
-    </form>
-    <a href="login.php">Login</a>
-
+                <input type="submit" value="Registrati"><br>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

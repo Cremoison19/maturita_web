@@ -108,23 +108,25 @@ session_start();
     ?>
 
     <div class="container pt-3 pb-4 text-center text-white">
-        <div class="card login">
+        <div class="card login mx-auto">
             <div class="card-body">
                 <div class="card-header">
                     <h2>Login</h2>
                     <a href="index.php">Torna alle homepage</a>
                 </div>
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <legend for="email">Email</legend>
-                    <input name="email" type="email"><br>
-                    <span><?php echo $emailErr; ?></span><br>
-                    <legend for="password">Password</legend>
-                    <input name="password" type="password"><br>
-                    <span><?php echo $passwordErr; ?></span><br><br><br>
-                    <input class="btn btn-light" name="login" type="submit" value="Accedi">
-                    <br><br>
-                    <a href="signup.php">Registrati</a>
-                </form>
+                <div class="form-group mx-auto">
+                    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                        <legend for="email">Email</legend>
+                        <input class="form-control" name="email" type="email">
+                        <span><?php echo $emailErr; ?></span><br>
+                        <legend for="password">Password</legend>
+                        <input class="form-control" style="margin-bottom: 4rem" name="password" type="password">
+                        <span><?php echo $passwordErr; ?></span>
+                        <input class="btn btn-light" name="login" type="submit" value="Accedi">
+                        <br><br>
+                        <a href="signup.php">Registrati</a>
+                    </form>
+                </div>
             </div>
 
         </div>

@@ -8,6 +8,8 @@ require_once "../config.php";
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" type="media" href="../style.css">
     <title>New Post</title>
 </head>
 
@@ -76,41 +78,48 @@ require_once "../config.php";
     }
 
     ?>
-    <h2>New Post</h2>
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <div class="header container-fluid text-center pb-8">
+        <h2>New Post</h2>
+        <button class="btn btn-dark" onclick="window.location.href = 'consulent.php';">Back</button>
+    </div>
 
-        <label for="company">Company</label>
-        <input name="company" placeholder="Company Name" maxlenght="32" required>
-        <span><?php echo $companyErr; ?>* </span><br>
+    <div class="col lg-3 card login mx-auto">
+        <div class="card-body rounded">
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
-        <label for="role">Role Offered</label>
-        <select name="role">
-            <?php
-            $sql = "SELECT * FROM professions;";
-            $result = $pdo->query($sql);
+                <label for="company">Company</label>
+                <input name="company" placeholder="Company Name" maxlenght="32" required>
+                <span><?php echo $companyErr; ?>* </span><br>
 
-            foreach ($result as $row) {
-                $row = $row[0];
-                echo "<option value=\"$row\">$row</option>";
-            }
+                <label for="role">Role Offered</label>
+                <select name="role" class="custom-select-sm">
+                    <?php
+                    $sql = "SELECT * FROM professions;";
+                    $result = $pdo->query($sql);
 
-            ?>
-        </select><br>
+                    foreach ($result as $row) {
+                        $row = $row[0];
+                        echo "<option value=\"$row\">$row</option>";
+                    }
 
-        <label for="location">Location</label>
-        <input name="location" placeholder="Location" maxlenght="32">
-        <span><?php echo $locationErr; ?>* </span><br>
+                    ?>
+                </select><br>
 
-        <label for="salary">Salary</label>
-        <input name="salary" type="number" placeholder="Salary" min="400" max="15000" step="50" value="1000">
-        <span><?php echo $salaryErr; ?>* </span><br>
+                <label for="location">Location</label>
+                <input name="location" placeholder="Location" maxlenght="32">
+                <span><?php echo $locationErr; ?>* </span><br>
 
-        <label for="desc">Description</label>
-        <textarea name="desc" placeholder="Description"></textarea><br>
+                <label for="salary">Salary</label>
+                <input name="salary" type="number" placeholder="Salary" min="400" max="15000" step="50" value="1000">
+                <span><?php echo $salaryErr; ?>* </span><br>
 
-        <input type="submit" name="newpost" value="Send">
-    </form>
-    <button onclick="window.location.href = 'consulent.php';">Back</button>
+                <label for="desc">Description</label>
+                <textarea name="desc" placeholder="Description"></textarea><br>
+
+                <input class="btn btn-light" type="submit" name="newpost" value="Send">
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
